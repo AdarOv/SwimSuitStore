@@ -1,8 +1,25 @@
-<div class="container">
-    <div class="login-container" ng-controller="mainController as mainCtrl">
-        <h2>Home</h2>
-        <div>
+<div class="content">
+    <div class="container">
+        <div class="content-top">
+            <div ng-controller="mainController as mainCtrl">
+                <h1>TOP 5 ITEMS</h1>
+                <div class="grid-in">
+                    <div ng-repeat="item in $root.top5" class="col-md-4 grid-top">
+                        <a href="#/shop" class="b-link-stripe b-animate-go  thickbox">
+                            <img class="img-responsive" src="{{item.image}}" alt="">
+                            <div class="b-wrapper">
+                                <h3 class="b-animate b-from-left    b-delay03 ">
+                                    <span>{{item.category}}</span>
+                                </h3>
+                            </div>
+                        </a>
 
+
+                        <p><a href="#/shop">{{item.itemName}}</a></p>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>

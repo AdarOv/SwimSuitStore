@@ -4,9 +4,32 @@ app.config(function (localStorageServiceProvider) {
     localStorageServiceProvider.setPrefix('node_angular_App');
 });
 //-------------------------------------------------------------------------------------------------------------------
-app.factory('UserService', ['$http', function($http) {
+app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootScope',
+    function($http, localStorageService, $filter, $rootScope) {
     let service = {};
     service.isLoggedIn = false;
+
+    service.getHomeProducts = function(){
+        if(!$rootScope.top5){
+            $http.get('items/getTopFive')
+                .then(function (res) {
+                    $rootScope.top5 = res.data;
+
+                    if(!$rootScope.newProducts){
+                        $http.get('items/getNewItems')
+                            .then(function (res) {
+                                $rootScope.newProducts = res.data;
+                            })
+                            .catch(function (e) {
+                                return Promise.reject(e);
+                            });
+                    }
+                })
+                .catch(function (e) {
+                    return Promise.reject(e);
+                });
+        }
+    };
     service.login = function(user) {
         return $http.put('users/login', user)
             .then(function(response) {
