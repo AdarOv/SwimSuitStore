@@ -1,7 +1,7 @@
 //-------------------------------------------------------------------------------------------------------------------
-app.controller('mainController', ['UserService', function (UserService) {
+app.controller('mainController', ['UserService','$window','$http',
+    function (UserService,  $window, $http) {
     let vm = this;
-    vm.greeting = 'Have a nice day';
     vm.userService = UserService;
 }]);
 
