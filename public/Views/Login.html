@@ -1,0 +1,44 @@
+<div class="container">
+<div class="login-container" ng-controller="loginController as loginCtrl">
+    <div class="account">
+        <h1>Account</h1>
+    <div class="login-form">
+        <div class="account-pass">
+            <div class="col-md-8 account-top">
+                <form name="loginForm" ng-submit="loginCtrl.login(loginForm.$valid)" novalidate>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text"
+                               ng-model="loginCtrl.user.userMail"
+                               ng-required="true"
+                               class="form-control"
+                               name="usernameInput"
+                               placeholder="Enter Username">
+                        <p ng-show="loginForm.usernameInput.$invalid && !loginForm.usernameInput.$pristine" class="help-block">username is required</p>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password"
+                               ng-model="loginCtrl.user.password"
+                               ng-required="true"
+                               class="form-control"
+                               name="passwordInput"
+                               placeholder="Enter Password">
+                        <p ng-show="(loginForm.passwordInput.$error.required || loginForm.passwordInput.$pristine)" class="help-block">Password is required</p>
+                    </div>
+
+                    <input type="submit"
+                           class="btn btn-success btn-lg"
+                           value="Login"
+                           ng-disabled="loginForm.$invalid">
+                </form>
+            </div>
+        </div>
+        <div>
+            {{loginCtrl.errorMessage}}
+        </div>
+    </div>
+    </div>
+</div>
+</div>

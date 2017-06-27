@@ -1,0 +1,109 @@
+<div  ng-controller="registerController as registerCtrl">
+    <div class="container">
+        <div class="register">
+            <h1>Register</h1>
+            <form name="registerForm" ng-submit="registerCtrl.register(registerForm.$valid)" novalidate>
+                <div class="col-md-6 register-top-grid">
+                    <h3>Personal information</h3>
+                    <div class="form-group">
+                        <span>UserName</span>
+                        <input type="text" ng-model="registerCtrl.userRegister.user.email"
+                         class="form-control" ng-required="true" name="usernameInput" ng-minlength="5" ng-maxlength="10">
+                        <p ng-show="registerForm.usernameInput.$invalid && !registerForm.usernameInput.$pristine" class="help-block">username is required</p>
+                        <p ng-show="registerForm.usernameInput.$error.minlength" class="help-block"> Username must contain at least 5 characters</p>
+                        <p ng-show="registerForm.usernameInput.$error.maxlength" class="help-block"> Username must contain at maximum of 10 characters</p>
+                    </div>
+                    <div class="form-group">
+                        <span>Password</span>
+                        <input type="text" ng-model="registerCtrl.userRegister.user.userPassword"
+                               class="form-control" ng-required="true" name="passwordInput">
+                        <p ng-show="registerForm.passwordInput.$invalid && !registerForm.passwordInput.$pristine" class="help-block">password is required</p>
+                    </div>
+                    <div class="form-group">
+                        <span>First Name</span>
+                        <input class="form-control" type="text" ng-model="registerCtrl.userRegister.user.firstName">
+                    </div>
+                    <div class="form-group">
+                        <span>Last Name</span>
+                        <input class="form-control" type="text" ng-model="registerCtrl.userRegister.user.lastName">
+                    </div>
+                </div>
+                <div class="col-md-6 register-top-grid">
+                    <h3>Details</h3>
+                    <div class="form-group">
+                        <span>Address</span>
+                        <input class="form-control" type="text" ng-model="registerCtrl.userRegister.user.address">
+                    </div>
+                    <div class="form-group">
+                        <span>City</span>
+                        <input class="form-control" type="text" ng-model="registerCtrl.userRegister.user.city">
+                    </div>
+                    <div class="form-group">
+                        <span>Country</span>
+                        <input class="form-control" type="text" ng-model="registerCtrl.userRegister.user.country">
+                    </div>
+                    <div class="form-group">
+                        <span>Phone</span>
+                        <input class="form-control" type="text" ng-model="registerCtrl.userRegister.user.phone">
+                    </div>
+                    <div class="form-group">
+                        <span>Cellular</span>
+                        <input class="form-control" type="text" ng-model="registerCtrl.userRegister.user.cellular">
+                    </div>
+                    <div class="form-group">
+                        <span>Credit Card Number</span>
+                        <input class="form-control" type="text" ng-model="registerCtrl.userRegister.user.creditCardNumber">
+                    </div>
+
+                </div>
+                <div class="col-md-6 register-top-grid">
+                    <h3>Restore Password</h3>
+                    <div class="form-group">
+                        <span>Enter question1</span>
+                        <input class="form-control" type="text" ng-model="registerCtrl.userRegister.user.firstQuestion">
+                    </div>
+                    <div class="form-group">
+                        <span>Enter your answer</span>
+                        <input class="form-control" type="text" ng-model="registerCtrl.userRegister.user.firstAnswer">
+                    </div>
+                    <div class="form-group">
+                        <span>Enter question2</span>
+                        <input class="form-control" type="text" ng-model="registerCtrl.userRegister.user.secondQuestion">
+                    </div>
+                    <div class="form-group">
+                        <span>Enter your answer</span>
+                        <input class="form-control" type="text" ng-model="registerCtrl.userRegister.user.secondAnswer">
+                    </div>
+                </div>
+                <div class="col-md-6 register-top-grid">
+                    <h3>interested in..</h3>
+                    <div class="form-group">
+                        <span>Choose a category you like</span>
+                        <select ng-model="registerCtrl.userRegister.category.Category1" ng-options="category.category for category in registerCtrl.categories"
+                                class="form-control"
+                                name="category1Input">{{category.category | json}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <span>Choose another category you like</span>
+                        <select ng-model="registerCtrl.userRegister.category.Category2" ng-options="category.category for category in registerCtrl.categories"
+                                class="form-control"
+                                name="category2Input">{{category.category | json}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <span>Choose another category you like</span>
+                        <select ng-model="registerCtrl.userRegister.category.Category3" ng-options="category.category for category in registerCtrl.categories"
+                                class="form-control"
+                                name="category3Input">{{category.category | json}}
+                        </select>
+                    </div>
+                </div>
+                <input type="submit"
+                       class="btn btn-success btn-lg"
+                       value="Submit"
+                       ng-disabled="registerForm.$invalid">
+            </form>
+        </div>
+    </div>
+</div>
