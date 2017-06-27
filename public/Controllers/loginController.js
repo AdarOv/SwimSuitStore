@@ -22,7 +22,7 @@ app.controller('loginController', ['UserService', '$location', '$window',
         };
     }]);
 //--------------------------------------------------------------------------------------------------------------------
-app.controller('registerController',['UserService', '$location', '$window','$http',
+app.controller('registerController',['UserService', '$location', '$window', '$http',
     function(UserService, $location, $window, $http) {
         let self = this;
 

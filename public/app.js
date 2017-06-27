@@ -22,7 +22,16 @@ app.factory('UserService', ['$http', function($http) {
                 return Promise.reject(e);
             });
     };
-    return service;
+
+    service.getCart = function(){
+            $http.get('/getMyCart/:' + user.userMail)
+                .then(function (res) {
+                    return res.data;
+                })
+                .catch(function (e) {
+                    return Promise.reject(e);
+                });
+        }
 }]);
 //-------------------------------------------------------------------------------------------------------------------
 app.config(['$locationProvider', function($locationProvider) {
@@ -43,6 +52,10 @@ app.config( ['$routeProvider', function($routeProvider) {
         })
         .when("/shop", {
             templateUrl : "Views/Shop.html"
+        })
+        .when("/cart", {
+            templateUrl : "Views/Cart.html",
+            controller : "cartController"
         })
         .otherwise({redirect: '/',
         });
