@@ -6,47 +6,46 @@ app.config(function (localStorageServiceProvider) {
 //-------------------------------------------------------------------------------------------------------------------
 app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootScope',
     function($http, localStorageService, $filter, $rootScope) {
-    let service = {};
-    service.isLoggedIn = false;
+        let service = {};
+        service.isLoggedIn = false;
 
-    service.getHomeProducts = function(){
-        if(!$rootScope.top5){
-            $http.get('items/getTopFive')
-                .then(function (res) {
-                    $rootScope.top5 = res.data;
+        service.getHomeProducts = function(){
+            if(!$rootScope.top5){
+                $http.get('items/getTopFive')
+                    .then(function (res) {
+                        $rootScope.top5 = res.data;
 
-                    if(!$rootScope.newProducts){
-                        $http.get('items/getNewItems')
-                            .then(function (res) {
-                                $rootScope.newProducts = res.data;
-                            })
-                            .catch(function (e) {
-                                return Promise.reject(e);
-                            });
-                    }
+                        if(!$rootScope.newProducts){
+                            $http.get('items/getNewItems')
+                                .then(function (res) {
+                                    $rootScope.newProducts = res.data;
+                                })
+                                .catch(function (e) {
+                                    return Promise.reject(e);
+                                });
+                        }
+                    })
+                    .catch(function (e) {
+                        return Promise.reject(e);
+                    });
+            }
+        };
+        service.login = function(user) {
+            return $http.put('users/login', user)
+                .then(function(response) {
+                    let token = response.data;
+                    $http.defaults.headers.common = {
+                        'my-Token': token,
+                        'user' : user.userMail
+                    };
+                    service.isLoggedIn = true;
+                    return Promise.resolve(response);
                 })
                 .catch(function (e) {
                     return Promise.reject(e);
                 });
-        }
-    };
-    service.login = function(user) {
-        return $http.put('users/login', user)
-            .then(function(response) {
-                let token = response.data;
-                $http.defaults.headers.common = {
-                    'my-Token': token,
-                    'user' : user.userMail
-                };
-                service.isLoggedIn = true;
-                return Promise.resolve(response);
-            })
-            .catch(function (e) {
-                return Promise.reject(e);
-            });
-    };
-
-    service.getCart = function(){
+        };
+        service.getCart = function(){
             $http.get('/getMyCart/:' + user.userMail)
                 .then(function (res) {
                     return res.data;
@@ -55,7 +54,8 @@ app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootSco
                     return Promise.reject(e);
                 });
         }
-}]);
+        return service;
+    }]);
 //-------------------------------------------------------------------------------------------------------------------
 app.config(['$locationProvider', function($locationProvider) {
     $locationProvider.hashPrefix('');
