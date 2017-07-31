@@ -4,67 +4,13 @@ app.config(function (localStorageServiceProvider) {
     localStorageServiceProvider.setPrefix('node_angular_App');
 });
 //-------------------------------------------------------------------------------------------------------------------
-app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootScope',
-    function($http, localStorageService, $filter, $rootScope) {
-        let service = {};
-        service.isLoggedIn = false;
-
-        service.getHomeProducts = function(){
-            if(!$rootScope.top5){
-                $http.get('items/getTopFive')
-                    .then(function (res) {
-                        $rootScope.top5 = res.data;
-
-                        if(!$rootScope.newProducts){
-                            $http.get('items/getNewItems')
-                                .then(function (res) {
-                                    $rootScope.newProducts = res.data;
-                                })
-                                .catch(function (e) {
-                                    return Promise.reject(e);
-                                });
-                        }
-                    })
-                    .catch(function (e) {
-                        return Promise.reject(e);
-                    });
-            }
-        };
-        service.login = function(user) {
-            return $http.put('users/login', user)
-                .then(function(response) {
-                    let token = response.data;
-                    $http.defaults.headers.common = {
-                        'my-Token': token,
-                        'user' : user.userMail
-                    };
-                    service.isLoggedIn = true;
-                    return Promise.resolve(response);
-                })
-                .catch(function (e) {
-                    return Promise.reject(e);
-                });
-        };
-        service.getCart = function(){
-            $http.get('/getMyCart/:' + user.userMail)
-                .then(function (res) {
-                    return res.data;
-                })
-                .catch(function (e) {
-                    return Promise.reject(e);
-                });
-        }
-        return service;
-    }]);
-//-------------------------------------------------------------------------------------------------------------------
 app.config(['$locationProvider', function($locationProvider) {
     $locationProvider.hashPrefix('');
 }]);
 app.config( ['$routeProvider', function($routeProvider) {
     $routeProvider
         .when("/", {
-            templateUrl : "Views/Home.html",
-            controller : "mainController"
+            templateUrl : "Views/Home.html"
         })
         .when("/login", {
             templateUrl : "Views/Login.html",
@@ -83,4 +29,72 @@ app.config( ['$routeProvider', function($routeProvider) {
         .otherwise({redirect: '/',
         });
 }]);
+//-------------------------------------------------------------------------------------------------------------------
+app.factory('UserService', ['$http', 'localStorageService', '$rootScope',
+    function($http, localStorageService, $rootScope) {
+        let service = {};
+        //service.top5 = null;
+        service.isLoggedIn = false;
+        //$rootScope.login = false;
+        service.getHomeProducts = function(){
+            if(!service.top5){
+                $http.get('items/getTopFive')
+                    .then(function (res) {
+                        service.top5 = res.data;
+                    }),function (e) {
+                    return Promise.reject(e);
+                };
+            }
+        };
+        service.login = function(user) {
+            return $http.put('users/login', user)
+                .then(function(response) {
+                    let token = response.data;
+                    $http.defaults.headers.common = {
+                        'my-Token': token,
+                        'user' : user.userMail
+                    };
+                    service.isLoggedIn = true;
+                    $rootScope.login = true;
+                    return Promise.resolve(response);
+                })
+                .catch(function (e) {
+                    return Promise.reject(e);
+                });
+        };
+        service.getCart = function(){
+            $http.get('/getMyCart/:' + user.userMail)
+                .then(function (res) {
+                    return res.data;
+                })
+                .catch(function (e) {
+                    return Promise.reject(e);
+                });
+        }
+
+        service.initUser = function(){
+            $rootScope.guest = true;
+            $rootScope.UserMail = '';
+            $rootScope.LastLogin = '';
+            if(localStorageService.cookie.isSupported){
+                let user = localStorageService.cookie.get('user');
+                if(user){
+                    $rootScope.UserMail = user.UserMail; // extract cookie data
+                    $rootScope.LastLogin = user.Date;
+
+                    $http.defaults.headers.common = {                  //use the token for the user requets
+                        'my-Token': user.Token,
+                        'user' : user.UserMail
+                    };
+
+                    $rootScope.guest=false;                 //update that this is not a guest
+
+                    //update the cookie for the new login time!
+                    var cookieObject = {UserMail: user.UserMail, Date: new Date(), Token: user.Token }
+                    localStorageService.cookie.set('user',cookieObject);
+                }
+            }
+        };
+        return service;
+    }]);
 //-------------------------------------------------------------------------------------------------------------------

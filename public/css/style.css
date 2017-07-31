@@ -71,6 +71,9 @@ a.item_add {
 	float: right;
 	  margin-top: 2px;
 }
+.writeFont{
+	color: #f7f7f7;
+}
 /*----*/
 .header {
   border-bottom: 1px solid #000;
@@ -413,7 +416,7 @@ height: 35px;
 }
 .b-animate img{
 	margin-top: 4%;
-	display: -webkit-inline-box;
+	/*display: -webkit-inline-box;*/
 }
 .b-animate span{
 	display:block;
@@ -909,7 +912,7 @@ h3.best {
 }
 /*----*/
 .product-middle{
-	background: url(../images/product1.jpg) center;
+	/*background: url(../images/product1.jpg) center;*/
   width: 100%;
   min-height: 45px;
   display: block;
@@ -1372,7 +1375,7 @@ a.add-re:hover{
 }
 .checkbox input + i:after {
 	content: '';
-	background: url("../images/tick1.png") no-repeat 1px 2px;
+	/*background: url("../images/tick1.png") no-repeat 1px 2px;*/
 	top: -1px;
 	left: -1px;
 	width: 15px;
@@ -1613,7 +1616,7 @@ a.create {
 } 
 
 .close1,.close2{
-  background: url('../images/close_1.png') no-repeat 0px 0px;
+  /*background: url('../images/close_1.png') no-repeat 0px 0px;*/
   cursor: pointer;
   width: 28px;
   height: 28px;
@@ -1749,7 +1752,7 @@ a.item_add1 {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   padding: 10px 15px;
-  background: url(0) #f54d56;
+  background:  #f54d56;
 }
 a.item_add1:hover{
 	background:rgb(3, 193, 167);

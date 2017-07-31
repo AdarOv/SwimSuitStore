@@ -7,17 +7,21 @@
                     <h3>Personal information</h3>
                     <div class="form-group">
                         <span>UserName</span>
-                        <input type="text" ng-model="registerCtrl.userRegister.user.email"
-                         class="form-control" ng-required="true" name="usernameInput" ng-minlength="5" ng-maxlength="10">
-                        <p ng-show="registerForm.usernameInput.$invalid && !registerForm.usernameInput.$pristine" class="help-block">username is required</p>
-                        <p ng-show="registerForm.usernameInput.$error.minlength" class="help-block"> Username must contain at least 5 characters</p>
-                        <p ng-show="registerForm.usernameInput.$error.maxlength" class="help-block"> Username must contain at maximum of 10 characters</p>
+                        <input type="text" ng-model="registerCtrl.userRegister.user.email" ng-pattern="/^[a-zA-Z]*$/"
+                         class="form-control" ng-required="true" name="usernameInput" ng-minlength="3" ng-maxlength="8">
+                        <p ng-show="registerForm.usernameInput.$error.required && !registerForm.usernameInput.$pristine" class="help-block">username is required</p>
+                        <p ng-show="registerForm.usernameInput.$error.minlength" class="help-block"> Username must contain at least 3 characters</p>
+                        <p ng-show="registerForm.usernameInput.$error.maxlength" class="help-block"> Username must contain at maximum of 8 characters</p>
+                        <p ng-show="registerForm.usernameInput.$error.pattern" class="help-block"> Username contains only letters</p>
                     </div>
                     <div class="form-group">
                         <span>Password</span>
-                        <input type="text" ng-model="registerCtrl.userRegister.user.userPassword"
-                               class="form-control" ng-required="true" name="passwordInput">
-                        <p ng-show="registerForm.passwordInput.$invalid && !registerForm.passwordInput.$pristine" class="help-block">password is required</p>
+                        <input type="text" ng-model="registerCtrl.userRegister.user.userPassword" ng-pattern="/^[a-zA-Z0-9]*$/"
+                               class="form-control" ng-required="true" name="passwordInput" ng-minlength="5" ng-maxlength="10">
+                        <p ng-show="registerForm.passwordInput.$error.required && !registerForm.passwordInput.$pristine" class="help-block">password is required</p>
+                        <p ng-show="registerForm.passwordInput.$error.minlength" class="help-block"> Password must contain at least 5 characters</p>
+                        <p ng-show="registerForm.passwordInput.$error.maxlength" class="help-block"> Password must contain at maximum of 10 characters</p>
+                        <p ng-show="registerForm.passwordInput.$error.pattern" class="help-block"> Password contains only letters and numbers</p>
                     </div>
                     <div class="form-group">
                         <span>First Name</span>
@@ -40,7 +44,9 @@
                     </div>
                     <div class="form-group">
                         <span>Country</span>
-                        <input class="form-control" type="text" ng-model="registerCtrl.userRegister.user.country">
+                        <select ng-model="registerCtrl.userRegister.user.country" ng-options="country.Name for country in registerCtrl.Countries"
+                                class="form-control">
+                        </select>
                     </div>
                     <div class="form-group">
                         <span>Phone</span>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SwimSuitShop</title>
+    <link rel="shortcut icon" href="images/bikini_emoji_large_IiL_icon.ico" />
     <script src="angularScripts/angular.js"></script>
     <script src="app.js"></script>
     <script src="Controllers/mainController.js"></script>
@@ -38,10 +39,12 @@
 
                 <div ng-controller="mainController as mainCtrl">
                     <ul>
-                        <span ng-hide="mainCtrl.userService.isLoggedIn">
+                        <span ng-show="$root.guest">
                             <li ><a ng-href="#/login">Login</a></li>
                             <li><a  href="#/register">Register</a></li>
                         </span>
+                        <li class="writeFont"><strong>Hello {{$root.UserMail}} , </strong></li>
+                        <li class="writeFont">Your last login was in: {{$root.LastLogin | date : "medium"}} </li>
                     </ul>
                     <div class="cart box_1">
                         <a href="#/cart">
@@ -62,6 +65,7 @@
             </div>
             <div class="h_menu4">
                 <ul class="memenu skyblue">
+
                     <li class="active grid"><a class="color8" href="#/">Home</a></li>
                     <li><a class="color1" href="#/shop">Shop</a> </li>
                 </ul>

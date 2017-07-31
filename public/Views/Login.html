@@ -17,7 +17,7 @@
                         <p ng-show="loginForm.usernameInput.$invalid && !loginForm.usernameInput.$pristine" class="help-block">username is required</p>
 
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-hide="loginCtrl.restorePassword">
                         <label>Password</label>
                         <input type="password"
                                ng-model="loginCtrl.user.password"
@@ -27,16 +27,54 @@
                                placeholder="Enter Password">
                         <p ng-show="(loginForm.passwordInput.$error.required || loginForm.passwordInput.$pristine)" class="help-block">Password is required</p>
                     </div>
-
+                    <div class="form-group" ng-show="loginCtrl.restorePassword">
+                        <label>{{loginCtrl.firstQuestion}}</label>
+                        <input type="text"
+                               ng-model="loginCtrl.firstAnswer"
+                               class="form-control"
+                               name="firstAnswer"
+                               placeholder="Enter Your Answer">
+                        <p ng-show="(loginForm.firstAnswer.$error.required || loginForm.firstAnswer.$pristine)" class="help-block">Answer is required</p>
+                    </div>
+                    <div class="form-group" ng-show="loginCtrl.restorePassword">
+                        <label>{{loginCtrl.secondQuestion}}</label>
+                        <input type="text"
+                               ng-model="loginCtrl.secondAnswer"
+                               class="form-control"
+                               name="secondAnswer"
+                               placeholder="Enter Your Answer">
+                        <p ng-show="(loginForm.secondAnswer.$error.required || loginForm.secondAnswer.$pristine)" class="help-block">Answer is required</p>
+                    </div>
+                    <div class="form-group" ng-hide="loginCtrl.restorePassword">
+                        <div class="col-md-4 amet-sed ">
+                            <ul class="nav-bottom">
+                                <li ng-click="loginCtrl.restore(loginForm.usernameInput.$valid)">
+                                    <a><label>Restore Password</label></a></li>
+                            </ul>
+                        </div>
+                    </div>
                     <input type="submit"
                            class="btn btn-success btn-lg"
                            value="Login"
-                           ng-disabled="loginForm.$invalid">
+                           ng-disabled="loginForm.$invalid" ng-hide="loginCtrl.restorePassword">
+                    <input type="button" ng-click="loginCtrl.getPassword()"
+                           class="btn btn-success btn-lg"
+                           value="Restor Password"
+                           ng-disabled="loginForm.usernameInput.$invalid || loginForm.firstAnswer.$invalid || loginForm.secondAnswer.$invalid"
+                           ng-show="loginCtrl.restorePassword">
+                    <div class="form-group" ng-show="loginCtrl.userPassword">
+                        <div class="col-md-4 amet-sed ">
+                            <ul class="nav-bottom">
+                                <li><label>Your password is: {{loginCtrl.userPassword}}</label></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <label style="color: #d43f3a">
+                            {{loginCtrl.errorMessage}}</label>
+                    </div>
                 </form>
             </div>
-        </div>
-        <div>
-            {{loginCtrl.errorMessage}}
         </div>
     </div>
     </div>
