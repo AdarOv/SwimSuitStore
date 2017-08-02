@@ -1616,7 +1616,7 @@ a.create {
 } 
 
 .close1,.close2{
-  /*background: url('../images/close_1.png') no-repeat 0px 0px;*/
+  background: url('../images/close_1.png') no-repeat 0px 0px;
   cursor: pointer;
   width: 28px;
   height: 28px;
@@ -1753,6 +1753,17 @@ a.item_add1 {
   border-bottom-left-radius: 0;
   padding: 10px 15px;
   background:  #f54d56;
+}
+.styled-select select {
+	background: white;
+	width: 268px;
+	padding: 5px;
+	font-size: 16px;
+	line-height: 1;
+	border: 0;
+	border-radius: 0;
+	height: 34px;
+	-webkit-appearance: none;
 }
 a.item_add1:hover{
 	background:rgb(3, 193, 167);

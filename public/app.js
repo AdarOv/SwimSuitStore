@@ -33,19 +33,19 @@ app.config( ['$routeProvider', function($routeProvider) {
 app.factory('UserService', ['$http', 'localStorageService', '$rootScope',
     function($http, localStorageService, $rootScope) {
         let service = {};
-        //service.top5 = null;
-        service.isLoggedIn = false;
-        //$rootScope.login = false;
         service.getHomeProducts = function(){
-            if(!service.top5){
-                $http.get('items/getTopFive')
-                    .then(function (res) {
-                        service.top5 = res.data;
-                    }),function (e) {
-                    return Promise.reject(e);
-                };
-            }
+           return $http.get('items/getTopFive')
+               .then(function (res) {
+                   service.top5 = res.data;
+                   $http.get('items/getNewItems').then(function (result) {
+                       service.newProducts = result.data;
+                       return Promise.resolve(result.data);
+                   })
+               }).catch(function(e) {
+                   return Promise.reject(e);
+               });
         };
+        //service.getHomeProducts();
         service.login = function(user) {
             return $http.put('users/login', user)
                 .then(function(response) {
@@ -55,7 +55,7 @@ app.factory('UserService', ['$http', 'localStorageService', '$rootScope',
                         'user' : user.userMail
                     };
                     service.isLoggedIn = true;
-                    $rootScope.login = true;
+                    //$rootScope.login = true;
                     return Promise.resolve(response);
                 })
                 .catch(function (e) {
@@ -63,38 +63,38 @@ app.factory('UserService', ['$http', 'localStorageService', '$rootScope',
                 });
         };
         service.getCart = function(){
-            $http.get('/getMyCart/:' + user.userMail)
+            return $http.get('carts/getMyCart/' + service.userSer.UserMail)
                 .then(function (res) {
-                    return res.data;
+                    return Promise.resolve( res.data);
                 })
                 .catch(function (e) {
                     return Promise.reject(e);
                 });
         }
-
+        service.userSer = {};
         service.initUser = function(){
-            $rootScope.guest = true;
-            $rootScope.UserMail = '';
-            $rootScope.LastLogin = '';
+            service.userSer.isLoggedIn = false;
+            service.userSer.UserMail = 'guest';
+            service.userSer.LastLogin = '';
             if(localStorageService.cookie.isSupported){
                 let user = localStorageService.cookie.get('user');
                 if(user){
-                    $rootScope.UserMail = user.UserMail; // extract cookie data
-                    $rootScope.LastLogin = user.Date;
+                    service.userSer.UserMail = user.UserMail; // extract cookie data
+                    service.userSer.LastLogin = user.Date;
 
                     $http.defaults.headers.common = {                  //use the token for the user requets
                         'my-Token': user.Token,
                         'user' : user.UserMail
                     };
 
-                    $rootScope.guest=false;                 //update that this is not a guest
+                    service.userSer.isLoggedIn= true;                 //update that this is not a guest
 
                     //update the cookie for the new login time!
-                    var cookieObject = {UserMail: user.UserMail, Date: new Date(), Token: user.Token }
-                    localStorageService.cookie.set('user',cookieObject);
+                    localStorageService.cookie.set('user',{UserMail: user.UserMail, Date: new Date(), Token: user.Token });
                 }
             }
         };
+        service.initUser();
         return service;
     }]);
 //-------------------------------------------------------------------------------------------------------------------

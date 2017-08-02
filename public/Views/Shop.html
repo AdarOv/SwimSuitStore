@@ -1,0 +1,71 @@
+<div class="product" ng-controller="shopController as shopCtrl">
+    <div class="container">
+        <div class="col-md-3 product-price">
+            <div class=" rsidebar span_1_of_left">
+                <div class="of-left">
+                    <h3 class="cate">Categories</h3>
+                </div>
+                <ul class="menu">
+                    <li class="item1" ng-repeat="category in shopCtrl.categories"><a href="" ng-click="shopCtrl.setCategory(category.category)">{{category.category}}</a></li>
+                    <li class="item1"><a href="" ng-click="shopCtrl.setCategory('All')">All</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9 product1">
+            <div class=" bottom-product">
+                <div class="header">
+                    <div class="header-top">
+                        <div class="container">
+                            <div class="styled-select">
+                                <select ng-model="shopCtrl.order" >
+                                    <option value="" disabled selected>Select your order</option>
+                                    <option value="price">Price</option>
+                                    <option value="itemName">Name</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <div ng-repeat="item in shopCtrl.products  | filter:{itemName: $root.searchText} | orderBy: shopCtrl.order">
+                    <div class="col-md-4 bottom-cd simpleCart_shelfItem" >
+                        <div class="product-at ">
+                            <a href="" ng-click="shopCtrl.addToCart(item)">
+                                <img class="img-responsive" src={{item.image}} alt="">
+                                <div class="pro-grid">
+                                    <span class="buy-in">Buy Now</span>
+                                </div>
+                            </a>
+                        </div>
+                        <p class="tun">{{item.itemName}}</p>
+                        <a href="" ng-click="shopCtrl.addToCart(item)" class="item_add">
+                            <p class="number item_price"><i> </i>${{item.price}}</p></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 product1" ng-show="shopCtrl.isLoggedIn">
+            <br><br><br>
+            <div class="content-top">
+                <h1>Items For You</h1></div>
+            <div class=" bottom-product">
+                <div ng-repeat="item in shopCtrl.recommendedItems">
+                    <div class="col-md-4 bottom-cd simpleCart_shelfItem" >
+                        <div class="product-at ">
+                            <a href="" ng-click="shopCtrl.addToCart(item)">
+                                <img class="img-responsive" src={{item.image}} alt="">
+                                <div class="pro-grid">
+                                    <span class="buy-in">Buy Now</span>
+                                </div>
+                            </a>
+                        </div>
+                        <p class="tun">{{item.itemName}}</p>
+                        <a href="" ng-click="shopCtrl.addToCart(item)" class="item_add">
+                            <p class="number item_price"><i> </i>${{item.price}}</p></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

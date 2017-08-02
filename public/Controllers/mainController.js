@@ -1,21 +1,17 @@
 //-------------------------------------------------------------------------------------------------------------------
-app.controller('mainController', ['UserService','$window','$http',
-    function (UserService,  $window, $http) {
+app.controller('mainController', ['UserService','$window','$http','$rootScope','$location',
+    function (UserService,  $window, $http, $rootScope, $location) {
     let self = this;
-    UserService.initUser();
-    //UserService.getHomeProducts();
-    //self.top5 = UserService.top5;
-    self.GetTopFive = function () {
-        if(!self.top5){
-            $http.get('items/getTopFive')
-                .then(function (res) {
-                    self.top5 = res.data;
-                }),function (err) {
-                return Promise.reject(err);
-            }
+    UserService.getHomeProducts().then(function (res) {
+        self.top5 = UserService.top5;
+        self.newProducts = UserService.newProducts;
+    });
+    self.Go = function () {
+        if(self.filter != '' && self.filter != 'search '){
+            $rootScope.filter = self.filter;
+            $location.path('/shop');
         }
     }
-    self.GetTopFive();
-    self.isLoggedIn = UserService.isLoggedIn;
+    self.user = UserService.userSer;
 }]);
 

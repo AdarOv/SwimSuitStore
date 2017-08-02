@@ -9,6 +9,7 @@
     <script src="Controllers/mainController.js"></script>
     <script src="Controllers/loginController.js"></script>
     <script src="Controllers/cartController.js"></script>
+    <script src="Controllers/shopController.js"></script>
     <script type="text/javascript" src="angularScripts/angular-route.js"></script>
     <script type="text/javascript" src="angularScripts/angular-local-storage.min.js"></script>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css"  />
@@ -29,22 +30,22 @@
 <div class="header">
     <div class="header-top">
         <div class="container">
-            <div class="search">
-                <form>
-                    <input type="text" value="Search " onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
-                    <input type="submit" value="Go">
-                </form>
-            </div>
-            <div class="header-left">
+            <div ng-controller="mainController as mainCtrl">
+                <div class="search">
+                    <form>
+                        <input type="text" placeholder="Search" ng-model="$root.searchText" >
+                        <a href="#/shop"><input type="submit" value="Go"></a>
+                    </form>
+                </div>
+                <div class="header-left">
 
-                <div ng-controller="mainController as mainCtrl">
                     <ul>
-                        <span ng-show="$root.guest">
+                        <span ng-hide="mainCtrl.user.isLoggedIn">
                             <li ><a ng-href="#/login">Login</a></li>
                             <li><a  href="#/register">Register</a></li>
                         </span>
-                        <li class="writeFont"><strong>Hello {{$root.UserMail}} , </strong></li>
-                        <li class="writeFont">Your last login was in: {{$root.LastLogin | date : "medium"}} </li>
+                        <li class="writeFont"><strong>Hello {{mainCtrl.user.UserMail}} , </strong></li>
+                        <li class="writeFont">Your last login was in: {{mainCtrl.user.LastLogin | date : "medium"}}  </li>
                     </ul>
                     <div class="cart box_1">
                         <a href="#/cart">
@@ -60,7 +61,7 @@
         <div class="head-top">
             <div class="logo">
                 <a href="#/">
-                    <img src="images/logo.png">
+                    <img src="images/logo.jpg">
                 </a>
             </div>
             <div class="h_menu4">

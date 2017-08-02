@@ -15,10 +15,9 @@ var config = {
 	options: { encrypt: true, database: 'SwimsuitShop' }
 };
 
-var connection;
 exports.SP = function (storedPrucedureName) {
     return new Promise(function(resolve,reject) {
-        connection = new Connection(config);
+        var connection = new Connection(config);
         var ans = [];
         var properties = [];
         connection.on('connect', function(err) {
