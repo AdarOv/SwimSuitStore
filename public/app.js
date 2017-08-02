@@ -79,17 +79,14 @@ app.factory('UserService', ['$http', 'localStorageService', '$rootScope',
             if(localStorageService.cookie.isSupported){
                 let user = localStorageService.cookie.get('user');
                 if(user){
-                    service.userSer.UserMail = user.UserMail; // extract cookie data
+                    service.userSer.UserMail = user.UserMail;
                     service.userSer.LastLogin = user.Date;
 
-                    $http.defaults.headers.common = {                  //use the token for the user requets
+                    $http.defaults.headers.common = {
                         'my-Token': user.Token,
                         'user' : user.UserMail
                     };
-
-                    service.userSer.isLoggedIn= true;                 //update that this is not a guest
-
-                    //update the cookie for the new login time!
+                    service.userSer.isLoggedIn= true;
                     localStorageService.cookie.set('user',{UserMail: user.UserMail, Date: new Date(), Token: user.Token });
                 }
             }
@@ -98,3 +95,8 @@ app.factory('UserService', ['$http', 'localStorageService', '$rootScope',
         return service;
     }]);
 //-------------------------------------------------------------------------------------------------------------------
+app.filter('cartFilter',function () {
+    return function (input, orderBy, filterBy) {
+        
+    };
+})

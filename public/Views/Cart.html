@@ -1,5 +1,16 @@
 <div class="container" ng-controller="cartController as cartCtrl">
     <div class="check">
+        <select ng-model="order" >
+            <option value="" disabled selected>Select your order</option>
+            <option value="category">Category</option>
+            <option value="manufacturer">Manufacturer</option>
+        </select>
+        <select ng-model="order" style="margin-left:5em" >
+            <option value="" disabled selected>Select your order</option>
+            <option value="category">Category</option>
+            <option value="manufacturer">Manufacturer</option>
+        </select>
+        <br><br>
         <h1>My Shopping Bag ({{cartCtrl.items.length}})</h1>
         <div class="col-md-9 cart-items">
             <div ng-repeat="item in cartCtrl.items">
@@ -46,6 +57,24 @@
         </div>
 
         <div class="clearfix"> </div>
-
+        <a class="order" href="" ng-click="cartCtrl.getPreviousOrder()">Previous Order</a>
+        <div class="col-md-9 cart-items" ng-show="cartCtrl.showPrOrder">
+            <div ng-repeat="order in cartCtrl.orders">
+                <div class="cart-header" >
+                    <div class="cart-sec simpleCart_shelfItem">
+                        <div class="cart-item cyc">
+                        </div>
+                        <div class="cart-item-info">
+                            <h3><a href="">{{order.orderID}}</a></h3>
+                            <ul class="qty">
+                                <li><p>ItemID : {{order.itemID}}</p></li>
+                                <li><p>Qty : {{order.quantity}}</p></li>
+                            </ul>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

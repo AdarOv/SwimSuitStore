@@ -26,6 +26,7 @@ app.controller('cartController', ['$window', '$http','localStorageService', '$lo
                 $window.alert("Something went wrong");
             })
         }
+        self.showPrOrder = false;
         self.getTotal = function(){
             var total = 0;
             for(var i = 0; i < self.items.length; i++){
@@ -35,5 +36,17 @@ app.controller('cartController', ['$window', '$http','localStorageService', '$lo
             self.total = total;
             return total;
         }
+        self.getPreviousOrder = function () {
+            if(self.showPrOrder){
+                self.showPrOrder = false;
+            }
+            else{
+                $http.get('carts/getMyOrders/'+UserService.userSer.UserMail).then(function (res) {
+                    self.orders = res.data;
+                    self.showPrOrder = true;
+                }).catch(function (err) {
 
+                })
+            }
+        }
     }]);
