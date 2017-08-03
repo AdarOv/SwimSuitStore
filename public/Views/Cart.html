@@ -65,7 +65,7 @@
                         <div class="cart-item cyc">
                         </div>
                         <div class="cart-item-info">
-                            <h3><a href="">{{order.orderID}}</a></h3>
+                            <h3><a href="">OrderID : {{order.orderID}}</a></h3>
                             <ul class="qty">
                                 <li><p>ItemID : {{order.itemID}}</p></li>
                                 <li><p>Qty : {{order.quantity}}</p></li>
@@ -77,4 +77,7 @@
             </div>
         </div>
     </div>
+    <a class="order" href="" ng-click="cartCtrl.open()">Modal</a>
+
 </div>
+

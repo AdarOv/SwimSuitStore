@@ -1,7 +1,7 @@
 'use strict';
 //-------------------------------------------------------------------------------------------------------------------
-app.controller('cartController', ['$window', '$http','localStorageService', '$location', 'UserService',
-    function($window, $http, localStorageService, $location, UserService) {
+app.controller('cartController', ['$window', '$http', '$location', 'UserService','$scope','ngDialog',
+    function($window, $http, $location, UserService, $scope, ngDialog) {
         let self = this;
 
         self.getCart =function () {
@@ -49,4 +49,9 @@ app.controller('cartController', ['$window', '$http','localStorageService', '$lo
                 })
             }
         }
+
+        self.open = function () {
+            ngDialog.open({ template:  '<p > {{cartCtrl.showPrOrder}}</p>', className: 'ngdialog-theme-default', controller:"cartController", controllerAs:"cartCtrl" });
+        };
+
     }]);

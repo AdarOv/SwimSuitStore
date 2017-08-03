@@ -10,6 +10,9 @@
     <script src="Controllers/loginController.js"></script>
     <script src="Controllers/cartController.js"></script>
     <script src="Controllers/shopController.js"></script>
+    <link rel="stylesheet" href="css/ngDialog.css">
+    <link rel="stylesheet" href="css/ngDialog-theme-default.css">
+    <script src="angularScripts/ngDialog.js"></script>
     <script type="text/javascript" src="angularScripts/angular-route.js"></script>
     <script type="text/javascript" src="angularScripts/angular-local-storage.min.js"></script>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css"  />
@@ -47,7 +50,7 @@
                         <li class="writeFont"><strong>Hello {{mainCtrl.user.UserMail}} , </strong></li>
                         <li class="writeFont">Your last login was in: {{mainCtrl.user.LastLogin | date : "medium"}}  </li>
                     </ul>
-                    <div class="cart box_1">
+                    <div class="cart box_1" ng-show="mainCtrl.user.isLoggedIn">
                         <a href="#/cart">
                             <h3><img src="images/cart.png" alt=""/></h3>
                         </a>

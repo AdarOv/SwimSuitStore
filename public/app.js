@@ -1,4 +1,4 @@
-let app = angular.module('myApp', ['ngRoute', 'LocalStorageModule']);
+let app = angular.module('myApp', ['ngRoute', 'LocalStorageModule', 'ngDialog']);
 //-------------------------------------------------------------------------------------------------------------------
 app.config(function (localStorageServiceProvider) {
     localStorageServiceProvider.setPrefix('node_angular_App');
@@ -6,6 +6,15 @@ app.config(function (localStorageServiceProvider) {
 //-------------------------------------------------------------------------------------------------------------------
 app.config(['$locationProvider', function($locationProvider) {
     $locationProvider.hashPrefix('');
+}]);
+app.config(['ngDialogProvider', function (ngDialogProvider) {
+    ngDialogProvider.setDefaults({
+        className: 'ngdialog-theme-default',
+        plain: true,
+        showClose: true,
+        closeByDocument: true,
+        closeByEscape: true
+    });
 }]);
 app.config( ['$routeProvider', function($routeProvider) {
     $routeProvider
