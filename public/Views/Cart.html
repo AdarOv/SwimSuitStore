@@ -1,19 +1,54 @@
+<script>
+var app = angular.module('exampleDialog', ['ngDialog']);
+
+app.controller('MainCtrl', function ($scope, ngDialog) {
+$scope.open = function () {
+ngDialog.open({
+template: 'firstDialog',
+controller: 'FirstDialogCtrl',
+className: 'ngdialog-theme-default ngdialog-theme-custom'
+});
+};
+});
+</script>
+
+<script type="text/ng-template" id="itemDialog">
+    <div class="ngdialog-message">
+        <h2>Native Angular.js solution</h2>
+        <div>With ngDialog you don't need jQuery or Bootstrap to create dialogs for <code>ng-app:</code></div>
+        <ul class="mt">
+            <li>Use it in controllers, factories or directives</li>
+            <li>Create your own directives</li>
+            <li>Style all UI and templates</li>
+            <li>Configure themes</li>
+            <li>Add animations and effects</li>
+        </ul>
+        <div class="mt">Module is shipped with both <code>ngDialog</code> service and default directive.</div>
+    </div>
+    <div class="ngdialog-buttons mt">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="next()">►</button>
+    </div>
+</script>
+
+
 <div class="container" ng-controller="cartController as cartCtrl">
     <div class="check">
-        <select ng-model="order" >
-            <option value="" disabled selected>Select your order</option>
-            <option value="category">Category</option>
-            <option value="manufacturer">Manufacturer</option>
+        <div>
+            <h4>Filter By</h4>
+                <input id="no-filter" type="radio" name="filter" ng-model="filter" value="none" ng-checked="true" checked/>No Filter</br>
+                <input type="radio" name="filter" ng-model="filter" value="category"/>Category</br>
+                <input type="radio" name="filter" ng-model="filter" value="color" />Color</br>
+        </div>
+        <select ng-model="chooseCategory">
+            <option value="" disabled selected>Select Option</option>
+            <option ng-show="filter == 'category'" ng-repeat="category in cartCtrl.categories" value={{category.category}}>{{category.category}}</option>
+            <option ng-show="filter == 'color'" ng-repeat="color in cartCtrl.colors" value={{color}}>{{color}}</option>
         </select>
-        <select ng-model="order" style="margin-left:5em" >
-            <option value="" disabled selected>Select your order</option>
-            <option value="category">Category</option>
-            <option value="manufacturer">Manufacturer</option>
-        </select>
+
         <br><br>
         <h1>My Shopping Bag ({{cartCtrl.items.length}})</h1>
         <div class="col-md-9 cart-items">
-            <div ng-repeat="item in cartCtrl.items">
+            <div ng-show="filter != 'category' && filter!= 'color'" ng-repeat="item in cartCtrl.items">
                 <div class="cart-header" ng-if="item.quantity > 0" >
                     <div class="close1" ng-click="cartCtrl.removeItem(item)"> </div>
                     <div class="cart-sec simpleCart_shelfItem">
@@ -21,7 +56,47 @@
                             <img src={{item.image}} class="img-responsive" alt=""/>
                         </div>
                         <div class="cart-item-info">
-                            <h3><a href="#">{{item.itemName}}</a></h3>
+                            <h3><a ng-click="cartCtrl.open(item)">{{item.itemName}}</a></h3>
+                            <ul class="qty">
+                                <li><p>Size : {{item.size}}</p></li>
+                                <li><p>Color : {{item.color}}</p></li>
+                                <li><p>price per 1 : {{item.price}}</p></li>
+                                <li><p>Qty : {{item.quantity}}</p></li>
+                            </ul>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="filter == 'category'" ng-repeat="item in cartCtrl.items | filter: {category:chooseCategory}">
+                <div class="cart-header" ng-if="item.quantity > 0" >
+                    <div class="close1" ng-click="cartCtrl.removeItem(item)"> </div>
+                    <div class="cart-sec simpleCart_shelfItem">
+                        <div class="cart-item cyc">
+                            <img src={{item.image}} class="img-responsive" alt=""/>
+                        </div>
+                        <div class="cart-item-info">
+                            <h3><a ng-click="cartCtrl.open(item)">{{item.itemName}}</a></h3>
+                            <ul class="qty">
+                                <li><p>Size : {{item.size}}</p></li>
+                                <li><p>Color : {{item.color}}</p></li>
+                                <li><p>price per 1 : {{item.price}}</p></li>
+                                <li><p>Qty : {{item.quantity}}</p></li>
+                            </ul>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="filter == 'color'" ng-repeat="item in cartCtrl.items | filter: {color:chooseCategory}">
+                <div class="cart-header" ng-if="item.quantity > 0" >
+                    <div class="close1" ng-click="cartCtrl.removeItem(item)"> </div>
+                    <div class="cart-sec simpleCart_shelfItem">
+                        <div class="cart-item cyc">
+                            <img src={{item.image}} class="img-responsive" alt=""/>
+                        </div>
+                        <div class="cart-item-info">
+                            <h3><a ng-click="cartCtrl.open(item)">{{item.itemName}}</a></h3>
                             <ul class="qty">
                                 <li><p>Size : {{item.size}}</p></li>
                                 <li><p>Color : {{item.color}}</p></li>
@@ -36,11 +111,9 @@
         </div>
         <div class="col-md-3 cart-total">
             <div class="price-details">
-                <h3>Price Details</h3>
+                <h3>Order Details</h3>
                 <span>Total</span>
                 <span class="total1">{{cartCtrl.total}}</span>
-                <span>Discount</span>
-                <span class="total1">---</span>
                 <span>Delivery Charges</span>
                 <span class="total1">50.00</span>
                 <div class="clearfix"></div>

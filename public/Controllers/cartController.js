@@ -4,9 +4,19 @@ app.controller('cartController', ['$window', '$http', '$location', 'UserService'
     function($window, $http, $location, UserService, $scope, ngDialog) {
         let self = this;
 
-        self.getCart =function () {
+        self.getCategories = function () {
+            $http.get('items/getCategories').then(function (result) {
+                self.categories = result.data;
+            }).catch( function (err) {
+                return Promise.reject(err);
+            });
+        };
+        self.getCategories();
+
+        self.getCart = function () {
             UserService.getCart().then(function(result){
                 self.items = result;
+                self.getColors();
                 self.getTotal();
             }).catch(function (err) {
 
@@ -25,8 +35,18 @@ app.controller('cartController', ['$window', '$http', '$location', 'UserService'
             }).catch(function (err) {
                 $window.alert("Something went wrong");
             })
-        }
+        };
         self.showPrOrder = false;
+
+        self.getColors = function(){
+            var existingColors = [];
+            for(var i = 0; i < self.items.length; i++){
+                if (!existingColors.includes(self.items[i].color))
+                    existingColors.push(self.items[i].color);
+            }
+            self.colors = existingColors;
+        };
+
         self.getTotal = function(){
             var total = 0;
             for(var i = 0; i < self.items.length; i++){
@@ -35,7 +55,7 @@ app.controller('cartController', ['$window', '$http', '$location', 'UserService'
             }
             self.total = total;
             return total;
-        }
+        };
         self.getPreviousOrder = function () {
             if(self.showPrOrder){
                 self.showPrOrder = false;
@@ -48,10 +68,14 @@ app.controller('cartController', ['$window', '$http', '$location', 'UserService'
 
                 })
             }
-        }
-
-        self.open = function () {
-            ngDialog.open({ template:  '<p > {{cartCtrl.showPrOrder}}</p>', className: 'ngdialog-theme-default', controller:"cartController", controllerAs:"cartCtrl" });
         };
 
+        self.open = function (item) {
+            self.currentItem = item;
+            ngDialog.open({
+                template: 'firstDialog',
+                controller: 'cartController',
+                className: 'ngdialog-theme-default ngdialog-theme-custom',
+                controllerAs:"cartCtrl" });
+        };
     }]);

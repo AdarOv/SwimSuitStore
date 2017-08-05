@@ -6,8 +6,8 @@
                     <h3 class="cate">Categories</h3>
                 </div>
                 <ul class="menu">
-                    <li class="item1" ng-repeat="category in shopCtrl.categories"><a href="" ng-click="shopCtrl.setCategory(category.category)">{{category.category}}</a></li>
                     <li class="item1"><a href="" ng-click="shopCtrl.setCategory('All')">All</a></li>
+                    <li class="item1" ng-repeat="category in shopCtrl.categories"><a href="" ng-click="shopCtrl.setCategory(category.category)">{{category.category}}</a></li>
                 </ul>
             </div>
         </div>
