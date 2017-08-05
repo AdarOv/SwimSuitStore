@@ -56,6 +56,18 @@ router.get('/getMyOrders/:userMail', function (req, res) {
     };
 });
 
+router.get('/getOrder/:orderID', function (req, res) {
+    try {
+        var orderID = req.params.orderID;
+        dbStore.SP("[dbo].[getOrder] '" + orderID + "'").then(function (result) {
+            res.send(result);
+        });
+    }catch (exception)
+    {
+        res.status(400).send(exception);
+    };
+});
+
 router.post('/changeCurrency',function (req, res) {
     try {
         var currency = req.body.currency;

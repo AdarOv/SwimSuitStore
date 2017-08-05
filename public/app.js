@@ -35,6 +35,10 @@ app.config( ['$routeProvider', function($routeProvider) {
             templateUrl : "Views/Cart.html",
             controller : "cartController"
         })
+        .when("/order", {
+            templateUrl : "Views/Order.html",
+            controller : "orderController"
+        })
         .otherwise({redirect: '/',
         });
 }]);
@@ -100,6 +104,15 @@ app.factory('UserService', ['$http', 'localStorageService', '$rootScope',
                 }
             }
         };
+
+        service.currentOrder = 0;
+        service.setCurrentOrder = function(order){
+            service.currentOrder = order;
+        }
+        service.getCurrentOrder = function(){
+            return service.currentOrder;
+        }
+
         service.initUser();
         return service;
     }]);

@@ -1,41 +1,9 @@
-<script>
-var app = angular.module('exampleDialog', ['ngDialog']);
-
-app.controller('MainCtrl', function ($scope, ngDialog) {
-$scope.open = function () {
-ngDialog.open({
-template: 'firstDialog',
-controller: 'FirstDialogCtrl',
-className: 'ngdialog-theme-default ngdialog-theme-custom'
-});
-};
-});
-</script>
-
-<script type="text/ng-template" id="itemDialog">
-    <div class="ngdialog-message">
-        <h2>Native Angular.js solution</h2>
-        <div>With ngDialog you don't need jQuery or Bootstrap to create dialogs for <code>ng-app:</code></div>
-        <ul class="mt">
-            <li>Use it in controllers, factories or directives</li>
-            <li>Create your own directives</li>
-            <li>Style all UI and templates</li>
-            <li>Configure themes</li>
-            <li>Add animations and effects</li>
-        </ul>
-        <div class="mt">Module is shipped with both <code>ngDialog</code> service and default directive.</div>
-    </div>
-    <div class="ngdialog-buttons mt">
-        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="next()">►</button>
-    </div>
-</script>
-
-
 <div class="container" ng-controller="cartController as cartCtrl">
+    <h1>My Cart</h1>
     <div class="check">
         <div>
             <h4>Filter By</h4>
-                <input id="no-filter" type="radio" name="filter" ng-model="filter" value="none" ng-checked="true" checked/>No Filter</br>
+                <input type="radio" name="filter" ng-model="filter" value="none" ng-checked="true" checked/>No Filter</br>
                 <input type="radio" name="filter" ng-model="filter" value="category"/>Category</br>
                 <input type="radio" name="filter" ng-model="filter" value="color" />Color</br>
         </div>
@@ -60,8 +28,8 @@ className: 'ngdialog-theme-default ngdialog-theme-custom'
                             <ul class="qty">
                                 <li><p>Size : {{item.size}}</p></li>
                                 <li><p>Color : {{item.color}}</p></li>
-                                <li><p>price per 1 : {{item.price}}</p></li>
-                                <li><p>Qty : {{item.quantity}}</p></li>
+                                <li><p>Price : {{item.price}}</p></li>
+                                <li><p>Quantity : {{item.quantity}}</p></li>
                             </ul>
                         </div>
                         <div class="clearfix"></div>
@@ -80,33 +48,33 @@ className: 'ngdialog-theme-default ngdialog-theme-custom'
                             <ul class="qty">
                                 <li><p>Size : {{item.size}}</p></li>
                                 <li><p>Color : {{item.color}}</p></li>
-                                <li><p>price per 1 : {{item.price}}</p></li>
-                                <li><p>Qty : {{item.quantity}}</p></li>
+                                <li><p>price : {{item.price}}</p></li>
+                                <li><p>Quantity : {{item.quantity}}</p></li>
                             </ul>
                         </div>
                         <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
-            <div ng-show="filter == 'color'" ng-repeat="item in cartCtrl.items | filter: {color:chooseCategory}">
-                <div class="cart-header" ng-if="item.quantity > 0" >
-                    <div class="close1" ng-click="cartCtrl.removeItem(item)"> </div>
-                    <div class="cart-sec simpleCart_shelfItem">
-                        <div class="cart-item cyc">
-                            <img src={{item.image}} class="img-responsive" alt=""/>
+           <div ng-show="filter == 'color'" ng-repeat="item in cartCtrl.items | filter: {color:chooseCategory}">
+               <div class="cart-header" ng-if="item.quantity > 0" >
+                   <div class="close1" ng-click="cartCtrl.removeItem(item)"> </div>
+                        <div class="cart-sec simpleCart_shelfItem">
+                            <div class="cart-item cyc">
+                                <img src={{item.image}} class="img-responsive" alt=""/>
+                            </div>
+                            <div class="cart-item-info">
+                                <h3><a ng-click="cartCtrl.open(item)">{{item.itemName}}</a></h3>
+                                <ul class="qty">
+                                    <li><p>Size : {{item.size}}</p></li>
+                                    <li><p>Color : {{item.color}}</p></li>
+                                    <li><p>price : {{item.price}}</p></li>
+                                    <li><p>Quantity : {{item.quantity}}</p></li>
+                                </ul>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="cart-item-info">
-                            <h3><a ng-click="cartCtrl.open(item)">{{item.itemName}}</a></h3>
-                            <ul class="qty">
-                                <li><p>Size : {{item.size}}</p></li>
-                                <li><p>Color : {{item.color}}</p></li>
-                                <li><p>price per 1 : {{item.price}}</p></li>
-                                <li><p>Qty : {{item.quantity}}</p></li>
-                            </ul>
-                        </div>
-                        <div class="clearfix"></div>
                     </div>
-                </div>
             </div>
         </div>
         <div class="col-md-3 cart-total">
@@ -115,7 +83,7 @@ className: 'ngdialog-theme-default ngdialog-theme-custom'
                 <span>Total</span>
                 <span class="total1">{{cartCtrl.total}}</span>
                 <span>Delivery Charges</span>
-                <span class="total1">50.00</span>
+                <span class="total1">50</span>
                 <div class="clearfix"></div>
             </div>
             <ul class="total_price">
@@ -124,13 +92,12 @@ className: 'ngdialog-theme-default ngdialog-theme-custom'
                 <div class="clearfix"> </div>
             </ul>
 
-
             <div class="clearfix"></div>
             <a class="order" href="">Place Order</a>
         </div>
 
         <div class="clearfix"> </div>
-        <a class="order" href="" ng-click="cartCtrl.getPreviousOrder()">Previous Order</a>
+        <a class="order" href="" ng-click="cartCtrl.getPreviousOrder()">Previous Orders</a>
         <div class="col-md-9 cart-items" ng-show="cartCtrl.showPrOrder">
             <div ng-repeat="order in cartCtrl.orders">
                 <div class="cart-header" >
@@ -138,10 +105,10 @@ className: 'ngdialog-theme-default ngdialog-theme-custom'
                         <div class="cart-item cyc">
                         </div>
                         <div class="cart-item-info">
-                            <h3><a href="">OrderID : {{order.orderID}}</a></h3>
+                            <h3><a href="#/order" ng-click="cartCtrl.setCurrentOrder(order.orderID)">OrderID : {{order.orderID}}</a></h3>
                             <ul class="qty">
                                 <li><p>ItemID : {{order.itemID}}</p></li>
-                                <li><p>Qty : {{order.quantity}}</p></li>
+                                <li><p>Quantity : {{order.quantity}}</p></li>
                             </ul>
                         </div>
                         <div class="clearfix"></div>
@@ -150,7 +117,5 @@ className: 'ngdialog-theme-default ngdialog-theme-custom'
             </div>
         </div>
     </div>
-    <a class="order" href="" ng-click="cartCtrl.open()">Modal</a>
-
 </div>
 
